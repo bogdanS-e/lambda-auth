@@ -1,0 +1,24 @@
+body.DARK .footer-wrapper{
+    background-color: rgb(70, 57, 57);
+    color: white;
+}
+.footer-wrapper{
+    background-color: #e9efef;
+    color: black;
+}
+footer{
+    display: flex;
+    justify-content: center;
+    padding: 20px 0 30px;
+}
+.footer-text{
+    font-size: .9em;
+    max-width:600px;
+    opacity: .9;
+    text-align: center;
+}
+@media (max-width: 767px){
+    .footer-text{
+        font-size: .8em;
+    }
+}

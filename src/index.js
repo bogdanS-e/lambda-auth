@@ -1,21 +1,34 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import store from './app/store';
+import App from './containers/App';
 import { Provider } from 'react-redux';
-import * as serviceWorker from './serviceWorker';
-
+import { createStore, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import logger from 'redux-logger'
+import rootReducer from './reducers';
+import { Provider as AlertProvider } from 'react-alert'
+import AlertTemplate from './components/react-alert-template-basic'
+import './style/custom.css';
+const options = {
+  position: 'bottom center',
+  timeout: 3000,
+  offset: '5px',
+  containerStyle: {
+    zIndex: 10000000000
+  },
+  transition: 'fade'
+}
+const store = createStore(
+  rootReducer,
+  applyMiddleware(thunkMiddleware/* ,logger */)
+);
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <AlertProvider template={AlertTemplate} {...options}>
+        <App />
+      </AlertProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();

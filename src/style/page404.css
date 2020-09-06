@@ -1,0 +1,101 @@
+#handboy
+{
+   animation: swing ease-in-out 1.3s infinite alternate;
+    transform-origin: 98% 98%;
+    transform-box: fill-box;
+    
+}
+
+
+#girllight
+{
+   animation: swing ease-in-out 1.3s infinite alternate;
+    transform-origin: 0% 97%;
+    transform-box: fill-box;
+}
+
+#hairgirl
+{
+    animation: swinghair ease-in-out 1.3s infinite alternate;
+   transform-origin: 60% 0%;
+    transform-box: fill-box;
+  
+}
+
+#zero
+{
+  transform-origin:bottom;
+  transform-box:fill-box;
+  
+}
+
+/*************swing************/
+@keyframes swing {
+    0% { transform: rotate(10deg); }
+    100% { transform: rotate(-10deg); }
+}
+
+
+/*************swing hair************/
+@keyframes swinghair {
+    0% { transform: rotate(6deg); }
+    100% { transform: rotate(-6deg); }
+}
+
+.page404{
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0 10px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color:#141019;
+    background: radial-gradient(at 50% -20%, rgba(255, 255, 255, 0.466) 13%,#463939) fixed;
+}
+body.DARK .page404{
+    background-color:#141019;
+    background: radial-gradient(at 50% -20%, rgba(255, 255, 255, 0.466) 13%,#463939) fixed;
+}
+.page404 svg{
+    max-width: 700px;
+    max-height: 80%;
+}
+.page404 button{
+    opacity: .7;
+    font-size: 2em;
+    font-weight: 500;
+    color: black;
+    transition: opacity .3s;
+}
+body.DARK .page404 button{
+    color: white;
+}
+.page404 button:hover{
+    opacity: .6;
+    color: black;
+}
+body.DARK .page404 button:hover{
+    opacity: .6;
+    color: white;
+}
+@media (max-width: 767px){
+    .page404{
+        font-size: .8em;
+        justify-content: space-around;
+    }
+    .page404 svg{
+        max-height: 60%;
+    }
+}
+@media (max-width: 370px){
+    .page404{
+        font-size: .8em;
+    }
+    .page404 svg{
+        max-height: 30%;
+    }
+}

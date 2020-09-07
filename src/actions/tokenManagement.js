@@ -1,3 +1,5 @@
+import { userLoggedIn } from "./signFormControllerActions";
+
 export const REQUEST_TOKEN = 'REQUEST_TOKEN';
 export const RECEIVE_USER_DATA = 'RECEIVE_USER_DATA';
 export const ACCESS_TOKEN_WAS_NOT_VALID = 'ACCESS_TOKEN_WAS_NOT_VALID';
@@ -71,19 +73,20 @@ export function logInWithToken(path, token, refreshPath, refreshToken) {
             return await resp.json();
         }
         const json = await tryLog();
-        console.log(json);
         if (json.statusCode === 401 && refreshToken && refreshPath) {
             dispatch(accessTokenWasNotValid());
             const refreshJson = await refreshTokens(refreshPath, refreshToken);
             if (refreshJson.statusCode === 401) {
-                console.log(refreshJson);
                 dispatch(refreshTokenWasNotValid());
-                setTimeout(() => {
-                    dispatch(receiveUserData({name:345}))
-                }, 2000);
+            }else if (refreshJson.statusCode === 200) {
+                dispatch(refreshingTokens(refreshJson.body.access_token,refreshJson.body.refresh_token));
+                dispatch(userLoggedIn());
+                dispatch(receiveUserData());
             }
-        } else
-            dispatch(receiveUserData(json))
+        } else{
+            dispatch(userLoggedIn());
+            dispatch(receiveUserData());
+        }
         return await json;
     }
 }

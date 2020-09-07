@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import App from './containers/App';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
@@ -20,13 +21,15 @@ const options = {
 }
 const store = createStore(
   rootReducer,
-  applyMiddleware(thunkMiddleware/* ,logger */)
+  applyMiddleware(thunkMiddleware/* , logger */)
 );
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <AlertProvider template={AlertTemplate} {...options}>
-        <App />
+        <Router>
+          <App />
+        </Router>
       </AlertProvider>
     </Provider>
   </React.StrictMode>,

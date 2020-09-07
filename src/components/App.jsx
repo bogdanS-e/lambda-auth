@@ -9,30 +9,53 @@ import Header from '../containers/Header.js';
 import Footer from '../containers/Footer.js';
 import Page404 from '../containers/Page404.js';
 import SpinnerApp from '../components/SpinerApp';
+import PrivatePage from '../containers/PrivateRoute';
+import { useHistory } from "react-router-dom";
 function App(props) {
-  const { proxy, checkAuth, theme, userRole, accessToken,userIsFetching } = props;
+  const { proxy, checkAuth, theme, userRole, accessToken, userIsFetching, refreshToken } = props;
+  let history = useHistory();
+
   useEffect(() => {
     function logIn(path, token, refreshPath, refreshToken) {
       checkAuth(path, token, refreshPath, refreshToken);
     }
     if (accessToken) {
-      logIn(proxy + '/me', 'ssdfsdf', proxy + '/refresh', 'sgdsfgsdf');
+      logIn(proxy + '/me', accessToken, proxy + '/refresh', refreshToken);
     }
   }, [checkAuth, proxy, accessToken]);
+
   useEffect(() => {
     document.querySelector('body').className = theme;
   }, [theme]);
+
+  useEffect(() => {
+    /* async function fetchUserData() {
+      const resp = await fetch(proxy + '/me', {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + accessToken
+        }
+      });
+      const json = await resp.json();
+      console.log(json);
+    } */
+    if (userRole === 'user') {
+      history.push('/me');
+      //fetchUserData();
+    }
+  }, [userRole])
+
   return (
-    <Router>
+    <>
       {userIsFetching ? <SpinnerApp /> : null}
       <Header />
       <div className='content'>
         <Switch>
-          <Route exact path='/'>
+          <PrivateRoute exact path='/' userRole={userRole} expectedRole='guest' redirectingPath='/me'>
             <SignForm />
-          </Route>
-          <PrivateRoute path='/me' userRole={userRole}>
-            <div>sdf sdf sdf sdf</div>
+          </PrivateRoute>
+          <PrivateRoute path='/me' userRole={userRole} expectedRole='user' redirectingPath='/'>
+            <PrivatePage/>
           </PrivateRoute>
           <Route path="*">
             <Page404 />
@@ -40,7 +63,7 @@ function App(props) {
         </Switch>
       </div>
       <Footer />
-    </Router>
+    </>
   )
 }
 App.propTypes = {
@@ -50,17 +73,17 @@ App.propTypes = {
   userRole: PropTypes.string.isRequired,
   userIsFetching: PropTypes.bool.isRequired,
 }
-function PrivateRoute({ children, userRole, ...rest }) {
+function PrivateRoute({ children, userRole, expectedRole, redirectingPath, ...rest }) {
   return (
     <Route
       {...rest}
       render={({ location }) =>
-        userRole === 'user' ? (
+        userRole === expectedRole ? (
           children
         ) : (
             <Redirect
               to={{
-                pathname: "/",
+                pathname: redirectingPath,
                 state: { from: location }
               }}
             />

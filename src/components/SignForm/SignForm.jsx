@@ -38,5 +38,6 @@ SignForm.propTypes = {
     signIn: PropTypes.func.isRequired,
     proxy: PropTypes.string.isRequired,
     isFetching: PropTypes.bool.isRequired,
+    signStatus: PropTypes.string.isRequired
 }
 export default SignForm;

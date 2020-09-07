@@ -1,10 +1,11 @@
-import React, { useRef }  from 'react';
+import React, { useRef, useEffect }  from 'react';
 import { useAlert } from 'react-alert';
 import PropTypes from 'prop-types';
 import {ENGLISH} from '../../actions/languageActions';
+import {WRONG_PASSWORD } from '../../actions/signFormControllerActions';
 import Spiner from '../Spiner';
 const SignIn = (props) => {
-    const { language, proxy, signIn: propsSignIn, isFetching } = props;
+    const { language, proxy, signIn: propsSignIn, isFetching,signStatus,backToGuest } = props;
     const email = useRef(null);
     const password = useRef(null);
     const alert = useAlert();
@@ -21,6 +22,12 @@ const SignIn = (props) => {
         }
         return true;
     }
+    useEffect(()=>{
+        if(signStatus === WRONG_PASSWORD){
+            alert.error(<div><div className='alert-title'>{language === 'eng' ? 'Error' : 'Помилка'}</div><p className='alert-text text-nowrap'>{language === 'eng' ? 'Incorrect email or password' : "Неправильний емайл або пароль"}</p></div>);
+            backToGuest();
+        }
+    })
     return (
         <form onSubmit={signIn} className="form sign-in">
             <h2>{language === ENGLISH ? 'Welcome back' : 'З поверненням'}</h2>

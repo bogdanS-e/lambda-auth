@@ -1,4 +1,5 @@
 import {REQUEST_TOKEN,RECEIVE_USER_DATA,REFRESH_TOKEN_WAS_NOT_VALID} from '../actions/tokenManagement';
+import { LOG_OUT } from '../actions/signFormControllerActions';
 function user(state = {
     isFetching: false,
     data: {
@@ -20,6 +21,13 @@ function user(state = {
                         ...{role:'user'},
                         ...action.userData
                     } 
+                }
+            }
+        case LOG_OUT:
+            return {
+                ...state,
+                ...{
+                    data: {role:'guest'}
                 }
             }
         default:

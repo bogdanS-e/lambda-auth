@@ -1,0 +1,29 @@
+.private-route{
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0 10px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+body.DARK .private-route{
+    color: white;
+}
+.private-route h1{
+    text-align: center;
+    font-size: 3em;
+}
+@media (max-width: 767px){
+    .private-route{
+        font-size: .7em;
+    }
+}
+@media (max-width: 370px){
+    .private-route{
+        font-size: .6em;
+    }
+}

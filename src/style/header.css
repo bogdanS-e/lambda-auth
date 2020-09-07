@@ -22,13 +22,23 @@ header{
     margin: 10px;
     padding: 5px;
 }
-.header-switcher-label{
+.header-switcher-label,
+header .log-out-button{
     font-weight: 600;
     font-size:  1em;
     opacity: .7;
+    color: inherit;
+}
+header .log-out-button:hover,
+header .log-out-button:focus{
+    box-shadow: none;
+    outline: none;
+    color: inherit;
+    text-decoration-line: underline;
 }
 @media (max-width: 767px){
-    .header-switcher-label{
+    .header-switcher-label,
+    header .log-out-button{
         font-size:  .8em;
     }
 }

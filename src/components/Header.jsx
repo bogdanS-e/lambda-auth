@@ -5,7 +5,7 @@ import '../style/header.css';
 import { DARK } from '../actions/themeActions';
 import { ENGLISH } from '../actions/languageActions';
 const Header = (props) => {
-    const { toggleTheme, theme, language, toggleLanguage } = props;
+    const { toggleTheme, theme, language, toggleLanguage, userRole,logOut } = props;
     const changeLangElement = useRef(null);
     const changeThemeElement = useRef(null);
     function toggleCheckedLang() {
@@ -33,6 +33,11 @@ const Header = (props) => {
                     <Switcher refElement={changeThemeElement} />
                     <label htmlFor='themeSwitcher' className="mb-0 ml-1 header-switcher-label">{language === ENGLISH ? 'Dark' : 'Темна'}</label>
                 </div>
+                {userRole === 'user' ?
+                    <div className='log-out-button-wrapper'>
+                        <button onClick={logOut} className='btn log-out-button'>{language === ENGLISH ? 'Log out' : 'Вихід'}</button>
+                    </div>
+                    : null}
             </header>
         </div>
     )
@@ -41,6 +46,7 @@ Header.propTypes = {
     language: PropTypes.string.isRequired,
     toggleLanguage: PropTypes.func.isRequired,
     toggleTheme: PropTypes.func.isRequired,
-    theme: PropTypes.string.isRequired
+    theme: PropTypes.string.isRequired,
+    logOut: PropTypes.func.isRequired,
 }
 export default Header;

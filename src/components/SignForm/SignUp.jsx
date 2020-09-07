@@ -1,22 +1,24 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useAlert } from 'react-alert';
 import PropTypes from 'prop-types';
 import { ENGLISH } from '../../actions/languageActions';
 import Spiner from '../Spiner';
+import { USER_WAS_CREATED,WRONG_PASSWORD } from '../../actions/signFormControllerActions';
 const SignUp = (props) => {
-    const { language, proxy, signUp: propsSignUp, isFetching } = props;
+    const { language, proxy, signUp: propsSignUp, signIn: propsSignIn, isFetching,signStatus } = props;
     const email = useRef(null);
     const password = useRef(null);
     const checkPassword = useRef(null);
     const alert = useAlert();
+    useEffect(()=>{
+        if(signStatus === USER_WAS_CREATED){
+            propsSignIn(proxy+`/login?email=${email.current.value}&password=${password.current.value}`)
+        }
+    },[signStatus]);
     function signUp(e) {
         e.preventDefault();
-        const body = {
-            email: email.current.value,
-            password: password.current.value
-        }
         if (checkAllFields())
-            propsSignUp(proxy + '/sign_up',body);
+            propsSignUp(proxy + `/sign_up?email=${email.current.value}&password=${password.current.value}`);
     }
     function checkAllFields() {
         const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

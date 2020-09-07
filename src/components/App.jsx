@@ -8,8 +8,9 @@ import SignForm from '../containers/SignForm.js'
 import Header from '../containers/Header.js';
 import Footer from '../containers/Footer.js';
 import Page404 from '../containers/Page404.js';
+import SpinnerApp from '../components/SpinerApp';
 function App(props) {
-  const { proxy, checkAuth, theme, userRole, accessToken } = props;
+  const { proxy, checkAuth, theme, userRole, accessToken,userIsFetching } = props;
   useEffect(() => {
     function logIn(path, token, refreshPath, refreshToken) {
       checkAuth(path, token, refreshPath, refreshToken);
@@ -23,9 +24,9 @@ function App(props) {
   }, [theme]);
   return (
     <Router>
+      {userIsFetching ? <SpinnerApp /> : null}
       <Header />
       <div className='content'>
-        
         <Switch>
           <Route exact path='/'>
             <SignForm />
@@ -46,7 +47,8 @@ App.propTypes = {
   proxy: PropTypes.string.isRequired,
   checkAuth: PropTypes.func.isRequired,
   theme: PropTypes.string.isRequired,
-  userRole: PropTypes.string.isRequired
+  userRole: PropTypes.string.isRequired,
+  userIsFetching: PropTypes.bool.isRequired,
 }
 function PrivateRoute({ children, userRole, ...rest }) {
   return (

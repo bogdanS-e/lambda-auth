@@ -78,6 +78,9 @@ export function logInWithToken(path, token, refreshPath, refreshToken) {
             if (refreshJson.statusCode === 401) {
                 console.log(refreshJson);
                 dispatch(refreshTokenWasNotValid());
+                setTimeout(() => {
+                    dispatch(receiveUserData({name:345}))
+                }, 2000);
             }
         } else
             dispatch(receiveUserData(json))
